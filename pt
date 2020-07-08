@@ -1,0 +1,19 @@
+
+1	The static helper methods in the JAXB class (JAXB.marshal and JAXB.unmarshall) should be avoided if you need to invoke them repeatedly. 
+Instead, create a JAXBContext instance once and work with the Marshaller and Unmarshaller interfaces.
+2	Make sure you have only a single JAXBContext instance and share it across objects and threads. 
+All other objects, including Marshaller and Unmarshaller, are not thread-safe and must not be shared. 
+The static helper methods in the JAXB class can be used from several threads, of course.
+	
+3	Don't use schema validation (if possible).
+	
+4	Check that you use the best source or destination for the serialization/deserialization process. 
+For example, if you want to transmit XML over the net, write it directly into the connection's OutputStream. 
+Try to avoid temporary storage of the XML using ByteArray streams or in DOM trees.
+	
+5	If the document contains binary data, use a XOP transport if possible.
+	
+6	If you are sure you can't reach your performance target using JAXB, 
+switch to the XMLStreamReader/XMLStreamWriter interfaces (StAX API) for those parts that are too slow. 
+Note that using this low-level API can be a lot more work than using JAXB, 
+and getting the code to work right in all possible situations (e.g. comments in the middle of an XML text) is even more difficult.
